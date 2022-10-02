@@ -44,10 +44,10 @@ $> sudo ./install.sh
 ```
 
 ## Create a Project and a test User
-1. Login with admin and create project named cka
+1. Login with admin and create project named cka \
 ![img.png](imgs/create_project.png)
-2. Create a test user named jun
-![img.png](imgs/create_user.png)
+2. Create a test user named jun \
+![img.png](imgs/create_user.png) 
 3. Add jun in cka project
 ![img.png](imgs/add_member_into_project.png)
 
