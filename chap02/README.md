@@ -48,7 +48,7 @@ $> sudo ./install.sh
 ![img.png](imgs/create_project.png)
 2. Create a test user named jun \
 ![img.png](imgs/create_user.png) 
-3. Add jun in cka project
+3. Add jun in cka project \
 ![img.png](imgs/add_member_into_project.png)
 
 ## Push your first image
