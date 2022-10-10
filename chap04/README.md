@@ -21,7 +21,7 @@ Goal: Upgrade k8s 1.24.0 to k8s 1.25.2
     ```
     ![check_k8s_version](imgs/check_k8s_version.png)
 
-2. Upgrade Master \
+2. Upgrade Master
     - For node: you need to upgrade the master first and then upgrade the slave
     - For package: you need to upgrade kubeadm first, then execute `kubeamd upgrade`, and finally upgrade kubelet and kubectl
     
