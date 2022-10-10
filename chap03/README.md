@@ -55,5 +55,5 @@ $> multipass delete --purge --all
         $> kubectl edit deploy metrics-server -n kube-system
         ```
         Modify the containers args
-        ![metrics_server_containers_args](imgs/metrics_server_containers_args.png)
+        ![metrics_server_containers_args](imgs/metrics_server_containers_args.png) \
         Wait a few seconds, you can use the `kubectl top nodes` normally.
