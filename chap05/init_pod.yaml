@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    creationTimestamp: null
+    labels:
+        run: podinit
+    name: podinit
+    namespace: demo
+spec:
+    containers:
+    - image: nginx
+      name: nginxafterinit
+      resources: {}
+      imagePullPolicy: IfNotPresent
+    initContainers:
+    - image: alpine
+      name: initnginx
+      command: ["/bin/sh", "-c", "/sbin/sysctl -w vm.swappiness=10"]  # set swappiness in physical host
+      securityContext:
+        privileged: true  # <- because we modified the system value on physical host, we need given the privileged for pod
+    dnsPolicy: ClusterFirst
+    restartPolicy: Always
+status: {}
