@@ -1,10 +1,9 @@
 # Pod Management
-All commands are running on master node
 
 ## Create Pod
 - Create pod with command
     ```bash
-    $> kubectl run <pod_name> --image=<image_name>
+$> kubectl run <pod_name> --image=<image_name>
     # for example
     $> kubectl run mynginx --image=nginx
     ```
@@ -378,10 +377,103 @@ All commands are running on master node
   ```bash
   # Use the same d1.yaml above
   master $> kubectl apply -f d1.yaml
-  # List pod with node info
+  # List pods with node info
   master $> kubectl get pod -o wide
   # Drain slave2
   master $> kubectl drain slave2 --ignore-daemonsets --force
-  # List pod with node info, the pods on slave2 will be delete, and then be re-deploy on other nodes
+  # List pods with node info, the pods on slave2 will be delete, and then be re-deploy on other nodes.
   master $> kubectl get pod -o wide
   ```
+
+- [Taint](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+
+  Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints.
+  - Practice1: Set taint on slave1
+   
+    Let's create some pods for practice
+    ```bash
+    # d1.yaml was defined above
+    $> kubectl apply -f d1.yaml
+    # Pods ran on slave1 and slave2
+    $> kubectl get pod -o wide
+    ```
+    Set taint on slave1
+    ```bash
+    $> kubectl taint nodes slave1 keyxx=valuexx:NoSchedule
+    # chec slave1 info
+    $> kubectl describe node slave1 | grep -iE '(taint|role)'
+    # re-deploy mydeploy (create by d1.yaml)
+    $> kubectl scale deploy mydeploy --replicas=0
+    $> kubectl scale deploy mydeploy --replicas=3
+    # because no pod tolerate the taints on slave1, so all pods were running on slave2
+    $> kbuectl get pod -o wide
+    ```
+  
+  - Practice2: Create Pod with torelations
+    
+    Label jobtype=slave1 to slave1
+    ```
+    $> kubectl label node slave1 jobtype=slave1
+    ```
+
+    Create pod without torelerations and assign it to tainted slave1.
+    ```bash
+    $> kubectl apply -f podtolerations.yaml
+    # You will see pod status is pending
+    $> kubectl get pod podto
+    # Check error message
+    $> kubectl describe pod podto
+    ```
+
+    ![img.png](imgs/pod_toleration_error_msg.PNG)
+
+    - podtolerations.yaml
+    ```yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: podto
+      labels:
+        role: myrole
+    spec:
+      nodeSelector:  # <- add nodeSelector
+        jobtype: slave1
+      containers:
+        - name: web
+        image: nginx
+        imagePullPolicy: IfNotPresent
+    ```
+
+    Fix error by adding tolerations in podtolerations.yaml
+    - podtolerations.yaml
+    ```yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: podto
+      labels:
+        role: myrole
+    spec:
+      nodeSelector:
+        jobtype: slave1
+      tolerations:  # <- Set tolerations and operator is equal, all key-value must be matched on taints).
+      - operator: 'Equal' 
+        key: 'keyxx'
+        value: 'valuexx'
+        effect: 'NoSchedule'
+      containers:
+        - name: web
+        image: nginx
+        imagePullPolicy: IfNotPresent
+    ```
+    Delete podto and recreate it.
+    ```bash
+    $> kubectl delete pod podto
+    $> kubectl apply -f podtolerations.yaml
+    # Podto successfully ran on slave1
+    $> kubectl get pod podto
+    ```
+    Untaint slave1
+    ```bash
+    $> kubectl taint node slave1 keyxx-
+    ```
