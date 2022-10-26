@@ -1,13 +1,17 @@
 # Pod Management
 
 ## Create Pod
+
 - Create pod with command
+    
     ```bash
-$> kubectl run <pod_name> --image=<image_name>
+    $> kubectl run <pod_name> --image=<image_name>
     # for example
     $> kubectl run mynginx --image=nginx
     ```
+
 - Create pod with yaml
+    
     ```bash
     # Get yaml template with `--dry-run=client`
     $> mkdir pods && cd pods
@@ -143,11 +147,13 @@ $> kubectl run <pod_name> --image=<image_name>
         ```bash
         slave $> sudo systemctl status kubelet
         ```
+        
         ![check_drop_in_file](imgs/check_drop_in_file.png)
         
         If you want to customize static pod, you can put your yaml file in default path `/etc/kubernetes/manifests`. \
         Besides, we can change manifests path by editing 10-kubeadm.conf. 
         1. Add `--pod-manifest-path=/etc/kubernetes/customized-drop-in-pod/` in the first environment variable.
+        
             ![edit_drop_in_config](imgs/edit_drop_in_config.PNG)
         
         2. Now, reload daemon and restart kubelet.
@@ -179,7 +185,9 @@ $> kubectl run <pod_name> --image=<image_name>
                 status: {}
                 ```
         4. Log in master node, and we created namespace demo for mystaticpod. Let's check mystaticpod info below.
-        ![mystaticpod](imgs/show_mystaticpod.PNG)
+        
+            ![mystaticpod](imgs/show_mystaticpod.PNG)
+        
         5. Notice that we removed mystaticpod.yaml in slave, the pod will be delete immediately.
 
 - Create pod on specific nodes
