@@ -8,15 +8,17 @@ Please read this article first: https://medium.com/p/f3528b8154aa
 $> ./setup_k8s_cluster.ps1 3  # create 3 nodes, the first one is master node, the others are slave nodes 
 ```
 
-## Add slave node into cluster
+## Add a slave node into cluster
 show the join token by running the following command
 ```commandline
 $> ./setup_k8s_cluster.ps1  # Please do not assign any number
 ```  
-then please use the join token to add slave into cluster
-```
-# login slave1
+
+Use the join token to add the new node into cluster
+```bash
+# Login slave1
 $> multipass exec slave1 -- bash
+# Run kubeadm join with join token
 slave1@host> sudo kubeadm join 172.21.155.63:6443 --token xv6u5e.oiot6asc9lbkkyy1 --discovery-token-ca-cert-hash sha256:53781aaf53ddbbc8c5591d91b2ec4d8539e2924e83e92ed06bb94e303b54d19a --cri-socket=/run/cri-dockerd.sock
 ```
 
