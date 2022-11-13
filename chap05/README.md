@@ -41,6 +41,28 @@
         status: {}
         ```
 - Create Pod with 2 containers
+  
+  A Pod is just a fancy name for a special container. This means containers running inside of Pods are really containers running inside of containers.
+  To prove this, we build a pod with `pod_with_2_containers.yaml`, then check which node the pod is running on.
+  ```
+  master$> kubectl get pod -o wide
+  ```
+  ![which_node_the_pod_running_on](imgs/pod2c_which_node_the_pod_is_running_on.PNG)
+
+
+  Login slave1 where pod is actually running on, then login to the container
+  ```bash
+  slave1 $> docker ps  # find container id of nginx we created above
+  slave1 $> docker exec -it 35edc6fc0dfb bash # login to nginx container
+  root@pod2c $> apt-get update && apt-get install net-tools
+  root@pod2c $> netstat -tnlp
+  ```
+  ![docker_ps](imgs/pod2c_login_nginx.PNG)
+
+  ![netstat_tlnp](imgs/pod2c_share_network.png)
+
+  <b>You will find that both nginx and redis are in this container</b>, this is because they are in the same pod, so all resources are shared. This means that you log in to the redis container, and you will get the same result by executing `netstat -tlnp`
+  
     - pod_with_2_containers.yaml
         ```yaml
         apiVersion: v1
@@ -141,54 +163,53 @@
         status: {}
         ```
     
-    - Create Static Pod
+  - Create Static Pod
 
-        Static Pods are managered directly by the kubelet on a specific node. We demo how to create static pod on slavem, because the cluster crush if msater node got error. Firstly, check the kubelet status and get the path of config file
-        ```bash
-        slave $> sudo systemctl status kubelet
-        ```
-        
-        ![check_drop_in_file](imgs/check_drop_in_file.png)
-        
-        If you want to customize static pod, you can put your yaml file in default path `/etc/kubernetes/manifests`. \
-        Besides, we can change manifests path by editing 10-kubeadm.conf. 
-        1. Add `--pod-manifest-path=/etc/kubernetes/customized-drop-in-pod/` in the first environment variable.
-        
-            ![edit_drop_in_config](imgs/edit_drop_in_config.PNG)
-        
-        2. Now, reload daemon and restart kubelet.
-            ```bash
-            slave $> sudo systemctl daemon-reload
-            slave $> sudo sytemctl restart kubelet
-            ```
-        3. Create our customized static pod
-            ```
-            slave $> mkdir /etc/kubernetes/customized-drop-in-pod
-            slave $> cd /etc/kubernetes/customized-drop-in-pod
-            slave $> vim mystaticpod.yaml
-            ```
-            - mystaticpod.yaml
-                ```yaml
-                apiVersion: v1
-                kind: Pod
-                metadata:
-                    namespace: demo  # <- add demo namespace
-                    labels:
-                        run: mystaticpod
-                    name: mystaticpod
-                spec:
-                    containers:
-                    - image: nginx
-                    name: mystaticpod
-                    dnsPolicy: ClusterFirst
-                    restartPolicy: Always
-                status: {}
-                ```
-        4. Log in master node, and we created namespace demo for mystaticpod. Let's check mystaticpod info below.
-        
-            ![mystaticpod](imgs/show_mystaticpod.PNG)
-        
-        5. Notice that we removed mystaticpod.yaml in slave, the pod will be delete immediately.
+      Static Pods are managered directly by the kubelet on a specific node. We demo how to create static pod on slavem, because the cluster crush if msater node got error. Firstly, check the kubelet status and get the path of config file
+      ```bash
+      slave $> sudo systemctl status kubelet
+      ```
+      ![check_drop_in_file](imgs/check_drop_in_file.PNG)
+      
+      If you want to customize static pod, you can put your yaml file in default path `/etc/kubernetes/manifests`. \
+      Besides, we can change manifests path by editing 10-kubeadm.conf. 
+      1. Add `--pod-manifest-path=/etc/kubernetes/customized-drop-in-pod/` in the first environment variable.
+      
+          ![edit_drop_in_config](imgs/edit_drop_in_config.PNG)
+      
+      2. Now, reload daemon and restart kubelet.
+          ```bash
+          slave $> sudo systemctl daemon-reload
+          slave $> sudo sytemctl restart kubelet
+          ```
+      3. Create our customized static pod
+          ```
+          slave $> mkdir /etc/kubernetes/customized-drop-in-pod
+          slave $> cd /etc/kubernetes/customized-drop-in-pod
+          slave $> vim mystaticpod.yaml
+          ```
+          - mystaticpod.yaml
+              ```yaml
+              apiVersion: v1
+              kind: Pod
+              metadata:
+                  namespace: demo  # <- add demo namespace
+                  labels:
+                      run: mystaticpod
+                  name: mystaticpod
+              spec:
+                  containers:
+                  - image: nginx
+                  name: mystaticpod
+                  dnsPolicy: ClusterFirst
+                  restartPolicy: Always
+              status: {}
+              ```
+      4. Log in master node, and we created namespace demo for mystaticpod. Let's check mystaticpod info below.
+      
+          ![mystaticpod](imgs/show_mystaticpod.PNG)
+      
+      5. Notice that we removed mystaticpod.yaml in slave, the pod will be delete immediately.
 
 - Create pod on specific nodes
 
