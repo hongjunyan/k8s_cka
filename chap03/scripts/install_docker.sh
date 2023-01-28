@@ -28,6 +28,6 @@ sudo service docker stop && sudo service docker start
 sudo usermod -aG docker $USER
 
 # if run k8s >=1.25, please install cri-docker first
-wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.2.6/cri-dockerd_0.2.6.3-0.ubuntu-focal_amd64.deb
-sudo dpkg -i cri-dockerd_0.2.6.3-0.ubuntu-focal_amd64.deb
+wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.0/cri-dockerd_0.3.0.3-0.ubuntu-focal_amd64.deb
+sudo dpkg -i cri-dockerd_0.3.0.3-0.ubuntu-focal_amd64.deb
 # In slave join token, must add --cri-socket=/run/cri-dockerd.sock
