@@ -2,7 +2,11 @@ $num_vms=$args[0]
 
 # multipass delete --purge --all  # delete all vms
 
-for($x=0; $x -lt $num_vms; $x=$x+1) {
+function replaceFileLineBreak($filePath) {
+    ((Get-Content $filePath) -join "`n") + "`n" | Set-Content -NoNewline $filePath
+}
+
+for ($x = 0; $x -lt $num_vms; $x = $x + 1) {
     if ($x -eq 0) {
         $vm_name="master"
         $memory="2G"
@@ -24,6 +28,7 @@ for($x=0; $x -lt $num_vms; $x=$x+1) {
         multipass launch --name $vm_name -m $memory -c $cpus -d $disk
         $scripts = Get-ChildItem -Path ./scripts -File -Recurse | Select-Object -ExpandProperty FullName
         foreach ($script in $scripts) {
+            replaceFileLineBreak $script
             multipass transfer $script $vm_name":"
         }
 
