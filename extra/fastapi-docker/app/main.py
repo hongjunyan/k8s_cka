@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import uvicorn
 from redis import Sentinel
 
@@ -15,13 +15,13 @@ def read_root():
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
-@app.get("/show_request/")
-def read_root(request: Request):
+@app.get("/show_request")
+def show_request(request: Request):
     client_host = request.client.host
     return {"client_host": client_host}
 
-@app.get("/show_request/")
-def read_root(uid, request: Request):
+@app.get("/show_uid")
+def show_uid(request: Request, uid):
     client_host = request.client.host
     return {"client_host": client_host, "uid": uid}
 
