@@ -1,6 +1,6 @@
 # FastAPI Docker
 
-A backend image for testing
+A backend image for testing ingress path rule
 
 ## Usage
 - Build Image and push to dockerHub
