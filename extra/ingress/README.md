@@ -45,7 +45,7 @@ kubectl get ipaddresspool -n metallb-system
 - (optional) replace image in app.yml with hongjunyan/fastapi_backend:v1 which built with fastapi-docker/Dockerfile
 - kubectl apply app.yml
 - kubectl apply ig-all.yml
-- try `curl shield.mcu.com/images/image.png` and `curl mcu.com/shield/images/image.png`, the both results will be different due to not correct path-base rule
+- try `curl shield.mcu.com/images/image.png` and `curl mcu.com/shield/images/image.png`, the both results will be different due to incorrect path-base rule
 - fix path-base rule by set another ingress
   - ig-all.yml
   ```yaml
