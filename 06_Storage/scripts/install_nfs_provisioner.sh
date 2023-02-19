@@ -1,5 +1,5 @@
-sudo apt install python3-pip
-sudo apt-get install jq
+sudo apt install -y python3-pip
+sudo apt-get install -y jq
 pip install yq
 
 

@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc1
+spec:
+  storageClassName: nfs-client  # create with `kubectl apply -f class.yaml` in install_nfs_provisioner.sh
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi

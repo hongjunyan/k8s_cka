@@ -50,7 +50,7 @@ $> vim podempdir.yaml
 - Setup NFS provisioner
   ```bash
   UbuntuVM $> git clone https://github.com/hongjunyan/k8s_cka.git
-  UbuntuVM $> cd 06_Storage
+  UbuntuVM $> cd k8s_cka/06_Storage
   UbuntuVM $> bash ./scripts/install_nfs_provisioner.sh
   ```
 
@@ -91,6 +91,7 @@ spec:
       - mountPath: "/demo_mnt"  # you can customize mountPath
         name: my-nfs  # define in volumes
 ```
+then execute `kubectl apply -f test-pod.yaml`
 
 ## Demo
 - Pass hosts into the pod created above
