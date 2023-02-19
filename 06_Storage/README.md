@@ -73,7 +73,7 @@ then run `kubectl apply -f demo-pvc.yaml`.
 You can check with `kubectl get pv,pvc`
 
 ## Create Pod with PVC
-- test-pod.yaml
+- demo-pod.yaml
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -91,7 +91,7 @@ spec:
       - mountPath: "/demo_mnt"  # you can customize mountPath
         name: my-nfs  # define in volumes
 ```
-then execute `kubectl apply -f test-pod.yaml`
+then execute `kubectl apply -f demo-pod.yaml`
 
 ## Demo
 - Pass hosts into the pod created above

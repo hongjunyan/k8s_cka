@@ -1,6 +1,6 @@
-sudo apt install -y python3-pip
+sudo apt-get install -y python3-pip
 sudo apt-get install -y jq
-pip install yq
+sudo pip install yq
 
 
 git clone https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner.git
