@@ -42,7 +42,7 @@ $> vim podempdir.yaml
 
 # NFS Storage Class
 
-## Install NFS
+## Install NFS Provisioner
 - ref: https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
 - HOST: `master`
 - NFS_PATH: `/nfs_demo`
