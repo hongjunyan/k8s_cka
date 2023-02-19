@@ -35,8 +35,10 @@ for ($x = 0; $x -lt $num_vms; $x = $x + 1) {
         # Install kubeadm and docker
         multipass exec $vm_name -- bash install_kubeadm.sh
         multipass exec $vm_name -- bash install_docker.sh
+        multipass exec $vm_name -- bash install_nfs_client.sh
         if ($vm_name -eq "master") {
             multipass exec $vm_name -- bash init_cluster.sh
+            multipass exec $vm_name -- bash install_nfs_server.sh
         }
     }
 }
