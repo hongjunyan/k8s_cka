@@ -29,7 +29,7 @@ In this tutorial, we will create a user call jason on client node and is availab
 
 Now, that's talk about the more details for above steps:
 ## Step 1: Create Private Key and CSR
-- create user's keys: https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user
+- ref: https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user
 
 - Create private key
     ```bash
@@ -46,9 +46,9 @@ Now, that's talk about the more details for above steps:
     ```
 
 ## Step 2: Create CSR object
-- create CSR object: https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user
+- ref - create CSR object: https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user
 
-- signer: https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers
+- ref - signer: https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers
 
 - Create CSR object
     ```bash
