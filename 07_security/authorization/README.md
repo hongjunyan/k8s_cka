@@ -4,7 +4,7 @@
 
 ## Create Role and RoleBinding for jason
 
-- Create a role which has CRUD privilege for POD in `default` namespace
+- Create a role which has RUD privilege for POD in `default` namespace
     ```bash
     master $> kubectl apply -f role_crud_pod.yaml
     master $> kubectl get role
