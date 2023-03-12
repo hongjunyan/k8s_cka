@@ -19,6 +19,7 @@ prepare for cka certification
         <li><a href="https://github.com/hongjunyan/k8s_cka/tree/master/04_Upgrade_K8S">Upgrade K8S</a></li>
         <li><a href="https://github.com/hongjunyan/k8s_cka/tree/master/05_Pod">Pod</a></li>
         <li><a href="https://github.com/hongjunyan/k8s_cka/tree/master/06_Storage">Storage</a></li>
+        <li><a href="https://github.com/hongjunyan/k8s_cka/tree/master/07_security">Security</a></li>
       </td>
     </tr>
   </tbody>
