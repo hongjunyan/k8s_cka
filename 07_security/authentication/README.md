@@ -9,7 +9,7 @@ all node are VMs created by multipass
 - Client nodes
     - client
 
-In this tutorial, we will create a user call jason on client node and is available to access the K8S cluster resource. Here is the steps:
+In this tutorial, we will create a user call jason on client node and is available to access the K8S cluster resource. Here are the steps:
 1. [client] - create private `jason.key` and create use it to generate `jason.csr`(certificate signing request)
 2. [master] - receive `jason.csr`, and then create CSR object with `client.csr`
 3. [master] - approve CSR object and issure `jason.crt`
