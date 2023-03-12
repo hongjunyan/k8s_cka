@@ -6,43 +6,43 @@
 
 - Create a role which has RUD privilege for POD in `default` namespace
     ```bash
-    master $> kubectl apply -f role_crud_pod.yaml
+    master $> kubectl apply -f role_rud_pod.yaml
     master $> kubectl get role
     ```
 
-    - role_crud_pod.yaml
+    - role_rud_pod.yaml
     ```yaml
     apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
     metadata:
       namespace: default
-      name: crud-pod
+      name: rud-pod
     rules:
     - apiGroups: [""]
       resources: ["pods"]
       verbs: ["get", "list", "update", "delete"]
     ```
 
-- Grant the crud-pod role to Jason
+- Grant the rud-pod role to Jason
     ```bash
-    master $> kubectl apply -f rolebind_crud_pod.yaml
-    master $> kubectl describe rolebinding crud-pod
+    master $> kubectl apply -f rolebind_rud_pod.yaml
+    master $> kubectl describe rolebinding rud-pod
     ```
 
-    - rolebind_crud_pod.yaml
+    - rolebind_rud_pod.yaml
     ```yaml
     apiVersion: rbac.authorization.k8s.io/v1
     kind: RoleBinding
     metadata:
       namespace: default
-      name: crud-pod
+      name: rud-pod
     subjects:
     - kind: User
       name: jason  # <- the authenticated user
       apiGroup: rbac.authorization.k8s.io
     roleRef:
       kind: Role
-      name: crud-pod  # <- create above
+      name: rud-pod  # <- create above
       apiGroup: rbac.authorization.k8s.io
     ```
 
